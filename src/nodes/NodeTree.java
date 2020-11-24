@@ -1,3 +1,5 @@
+package nodes;
+
 public class NodeTree extends Node{
 
    private Node upperNode;
@@ -6,8 +8,12 @@ public class NodeTree extends Node{
       super(id);
    }
 
+   public void setUpperNode(Node upperNode) {
+      this.upperNode = upperNode;
+   }
+
    @Override
    public double getValue () {
-      return 0;
+      return upperNode.getValue();
    }
 }

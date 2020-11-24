@@ -31,10 +31,10 @@ Responsibilities
 -nodeTree: Nodes
 --
 +Parser(line: String)
-+getNodeTree(): NodeTree
++getNodeTree(): nodes.NodeTree
 --
 Responsibilities
--- Parsing the Input to a NodeTree</panel_attributes>
+-- Parsing the Input to a nodes.NodeTree</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -45,17 +45,17 @@ Responsibilities
       <w>250</w>
       <h>200</h>
     </coordinates>
-    <panel_attributes>/Node/
+    <panel_attributes>/nodes.Node/
 --
 -id: int
--parent: Node
+-parent: nodes.Node
 --
 +getId(): int
-+Node(id: int)
++nodes.Node(id: int)
 /+getValue(): double/
 --
 Responsibilities
--- base class for Node Tree Nodes</panel_attributes>
+-- base class for nodes.Node Tree Nodes</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -66,9 +66,9 @@ Responsibilities
       <w>290</w>
       <h>220</h>
     </coordinates>
-    <panel_attributes>NodeTree
+    <panel_attributes>nodes.NodeTree
 --
--upperNode: Node
+-upperNode: nodes.Node
 +getValue(): double
 --
 Responsibilities
@@ -122,10 +122,10 @@ m2=1</panel_attributes>
       <w>390</w>
       <h>190</h>
     </coordinates>
-    <panel_attributes>OperatorNode
+    <panel_attributes>nodes.OperatorNode
 --
--value1: Node
--value2: Node
+-value1: nodes.Node
+-value2: nodes.Node
 --
 +getValue(): double
 --
@@ -142,7 +142,7 @@ Responsibilities
       <w>210</w>
       <h>190</h>
     </coordinates>
-    <panel_attributes>ValueNode
+    <panel_attributes>nodes.ValueNode
 --
 -value: double
 --

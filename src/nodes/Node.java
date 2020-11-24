@@ -1,3 +1,5 @@
+package nodes;
+
 public abstract class Node {
 
     private int id;
