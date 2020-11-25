@@ -99,7 +99,7 @@ public class BracketNode extends ValueNode {
             boolean hasPriorityNodes = true;
             while (hasPriorityNodes && operatorsCopy.size() > 1) {
                 hasPriorityNodes = false;
-                for (int i = 0; i < operatorsCopy.size(); i++) {
+                for (int i = 0; i < operatorsCopy.size() - 1; i++) {
                     OperatorNode op = operatorsCopy.get(i);
                     if (op.hasPriority()) {
                         op.calculate();
