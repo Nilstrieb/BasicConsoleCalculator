@@ -1,9 +1,20 @@
 package nodes;
 
+/**
+ * Stores a simple value, like 5
+ */
 public class ValueNode {
 
+    /**
+     * The value
+     */
     private double value;
+
+    /**
+     * The value as a String because it's easier to append digits to it that way
+     */
     private String valueString = "";
+
     private OperatorNode leftParent;
     private OperatorNode rightParent;
 
@@ -11,10 +22,6 @@ public class ValueNode {
         this.value = value;
         this.leftParent = leftParent;
         this.rightParent = rightParent;
-    }
-
-    public ValueNode(double value) {
-        this.value = value;
     }
 
     public ValueNode() {

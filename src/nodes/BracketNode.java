@@ -2,10 +2,22 @@ package nodes;
 
 import java.util.ArrayList;
 
+/**
+ * A Node that stores and parses the contents of brackets, also works as a base node
+ * It extends ValueNode because a bracket term is a value and is treated as such by operators
+ */
 public class BracketNode extends ValueNode {
 
-    private ArrayList<OperatorNode> operators;
+    /**
+     * All operators in the expression
+     */
+    private final ArrayList<OperatorNode> operators;
 
+    /**
+     * Create a new BracketNode from the content of the brackets (without the brackets)
+     * @param line The content
+     * @throws NumberFormatException If there is something wrong
+     */
     public BracketNode(String line) throws NumberFormatException{
         operators = new ArrayList<>();
 
@@ -27,7 +39,7 @@ public class BracketNode extends ValueNode {
                     case '/':
                         if (currentOperator != '0') {
                             OperatorNode newOperator = new OperatorNode(leftNumber, rightNumber, currentOperator);
-                            addOperator(newOperator);
+                            operators.add(newOperator);
                             leftNumber.addParent(newOperator);
                             rightNumber.addParent(newOperator);
                             leftNumber = rightNumber;
@@ -65,23 +77,26 @@ public class BracketNode extends ValueNode {
         }
 
         OperatorNode newOperator = new OperatorNode(leftNumber, rightNumber, currentOperator);
-        addOperator(newOperator);
+        operators.add(newOperator);
         leftNumber.addParent(newOperator);
         rightNumber.addParent(newOperator);
     }
 
-    public void addOperator(OperatorNode operator) {
-        operators.add(operator);
-    }
 
+    /**
+     * Calculates and returns the value of the Node
+     * @return The value
+     */
     @Override
     public double getValue() {
 
+        //First, only do the looping stuff if there are any operators
         if (operators.size() > 0) {
+            //copy the ArrayList because you might want to do this again later and the calculation process is destructive
             ArrayList<OperatorNode> operatorsCopy = new ArrayList<>(operators);
 
+            //While there are any operators with priority (* and /), calculate them, from left to right
             boolean hasPriorityNodes = true;
-
             while (hasPriorityNodes && operatorsCopy.size() > 1) {
                 hasPriorityNodes = false;
                 for (int i = 0; i < operatorsCopy.size(); i++) {
@@ -96,6 +111,7 @@ public class BracketNode extends ValueNode {
 
             }
 
+            //Calculate all the normal operators (+ and -) from left to right
             while (operatorsCopy.size() > 1) {
                 for (int i = 0; i < operatorsCopy.size() - 1; i++) {
                     OperatorNode op = operatorsCopy.get(i);
@@ -105,6 +121,7 @@ public class BracketNode extends ValueNode {
                 }
             }
 
+            //and now do the last calculation, and return it's result
             return operatorsCopy.get(0).getValue();
         } else {
             return 0;
