@@ -2,7 +2,7 @@ package nodes;
 
 import java.util.ArrayList;
 
-public class BracketNode extends ValueNode{
+public class BracketNode extends ValueNode {
 
     private ArrayList<OperatorNode> operators;
 
@@ -25,7 +25,7 @@ public class BracketNode extends ValueNode{
                     case '-':
                     case '*':
                     case '/':
-                        if(currentOperator != '0'){
+                        if (currentOperator != '0') {
                             OperatorNode newOperator = new OperatorNode(leftNumber, rightNumber, currentOperator);
                             addOperator(newOperator);
                             leftNumber.addParent(newOperator);
@@ -43,7 +43,7 @@ public class BracketNode extends ValueNode{
                         break;
                     case ')':
                         bracketLevel--;
-                        if(bracketLevel == 0){
+                        if (bracketLevel == 0) {
                             if (currentOperator == '0') {
                                 leftNumber = new BracketNode(bracketContent);
                             } else {
@@ -72,14 +72,14 @@ public class BracketNode extends ValueNode{
         rightNumber.addParent(newOperator);
     }
 
-    public void addOperator(OperatorNode operator){
+    public void addOperator(OperatorNode operator) {
         operators.add(operator);
     }
 
     @Override
     public double getValue() {
 
-        if(operators.size() > 0) {
+        if (operators.size() > 0) {
             ArrayList<OperatorNode> operatorsCopy = new ArrayList<>(operators);
 
             boolean hasPriorityNodes = true;
@@ -87,19 +87,25 @@ public class BracketNode extends ValueNode{
             while (hasPriorityNodes && operatorsCopy.size() > 1) {
                 hasPriorityNodes = false;
                 System.out.println(operatorsCopy);
-                for (OperatorNode op : operatorsCopy) {
+
+                for (int i = 0; i < operatorsCopy.size(); i++) {
+                    OperatorNode op = operatorsCopy.get(i);
                     if (op.hasPriority()) {
                         op.calculate();
                         operatorsCopy.remove(op);
+                        i--;
                         hasPriorityNodes = true;
                     }
                 }
+
             }
 
             while (operatorsCopy.size() > 1) {
-                for (OperatorNode op : operatorsCopy) {
+                for (int i = 0; i < operatorsCopy.size(); i++) {
+                    OperatorNode op = operatorsCopy.get(i);
                     op.calculate();
                     operatorsCopy.remove(op);
+                    i--;
                 }
             }
 
