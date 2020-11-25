@@ -12,7 +12,19 @@ public class ValueNode {
         this.rightParent = rightParent;
     }
 
+    public ValueNode(double value) {
+        this.value = value;
+    }
+
     public ValueNode() {
+    }
+
+    public void addParent(OperatorNode parent){
+        if (leftParent == null){
+            leftParent = parent;
+        } else {
+            rightParent = parent;
+        }
     }
 
     public double getValue() {
@@ -25,5 +37,11 @@ public class ValueNode {
 
     public OperatorNode getRightParent() {
         return rightParent;
+    }
+
+    public void append(char c) throws NumberFormatException{
+        String valueString = String.valueOf(value);
+        valueString += c;
+        this.value = Double.parseDouble(valueString);
     }
 }

@@ -5,27 +5,53 @@ public class OperatorNode {
     private ValueNode leftChild;
     private ValueNode rightChild;
 
-    private final Operator type;
+    private Operator type;
+
+    public OperatorNode(ValueNode leftChild, ValueNode rightChild) {
+        this.leftChild = leftChild;
+        this.rightChild = rightChild;
+    }
 
     public OperatorNode(ValueNode leftChild, ValueNode rightChild, Operator type) {
+        this(leftChild, rightChild);
         this.leftChild = leftChild;
         this.rightChild = rightChild;
         this.type = type;
     }
 
+    public OperatorNode(ValueNode leftChild, ValueNode rightChild, char operator) {
+        this(leftChild, rightChild);
+        this.type = switch (operator){
+            case '+' -> Operator.ADD;
+            case '-' -> Operator.SUBTRACT;
+            case '*' -> Operator.MULTIPLY;
+            case '/' -> Operator.DIVIDE;
+            default -> throw new IllegalStateException("Unexpected value: " + operator);
+        };
+    }
+
     public void calculate(){
 
-        double result = switch (type){
-            case ADD -> leftChild.getValue() + rightChild.getValue();
-            case SUBTRACT -> leftChild.getValue() - rightChild.getValue();
-            case MULTIPLY -> leftChild.getValue() * rightChild.getValue();
-            case DIVIDE -> leftChild.getValue() / rightChild.getValue();
-            };
+        double result = getValue();
 
         ValueNode resultNode = new ValueNode(result, getLeftNode(), getRightNode());
 
-        getLeftNode().setRightChild(resultNode);
-        getRightNode().setLeftChild(resultNode);
+        if(getLeftNode() != null) {
+            getLeftNode().setRightChild(resultNode);
+        }
+        if(getRightNode() != null) {
+            getRightNode().setLeftChild(resultNode);
+        }
+    }
+
+    public double getValue(){
+
+        return switch (type){
+            case ADD -> leftChild.getValue() + rightChild.getValue();
+            case SUBTRACT -> leftChild.getValue() - rightChild.getValue();
+            case MULTIPLY ->    leftChild.getValue() * rightChild.getValue();
+            case DIVIDE -> leftChild.getValue() / rightChild.getValue();
+        };
     }
 
     public OperatorNode getLeftNode(){
@@ -42,5 +68,9 @@ public class OperatorNode {
 
     public void setRightChild(ValueNode rightChild) {
         this.rightChild = rightChild;
+    }
+
+    public boolean hasPriority(){
+        return (type == Operator.MULTIPLY || type == Operator.DIVIDE);
     }
 }
