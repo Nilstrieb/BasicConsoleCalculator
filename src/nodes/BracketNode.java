@@ -39,7 +39,6 @@ public class BracketNode extends ValueNode {
                         break;
                     case '(':
                         bracketLevel++;
-                        System.err.println("NEW LEVEL: " + bracketLevel);
                         break;
                     case ')':
                         bracketLevel--;
@@ -51,7 +50,6 @@ public class BracketNode extends ValueNode {
                             }
                             bracketContent = "";
                         }
-                        System.err.println("DOWN LEVEL: " + bracketLevel);
                         break;
 
                     default:
@@ -86,8 +84,6 @@ public class BracketNode extends ValueNode {
 
             while (hasPriorityNodes && operatorsCopy.size() > 1) {
                 hasPriorityNodes = false;
-                System.out.println(operatorsCopy);
-
                 for (int i = 0; i < operatorsCopy.size(); i++) {
                     OperatorNode op = operatorsCopy.get(i);
                     if (op.hasPriority()) {
@@ -101,7 +97,7 @@ public class BracketNode extends ValueNode {
             }
 
             while (operatorsCopy.size() > 1) {
-                for (int i = 0; i < operatorsCopy.size(); i++) {
+                for (int i = 0; i < operatorsCopy.size() - 1; i++) {
                     OperatorNode op = operatorsCopy.get(i);
                     op.calculate();
                     operatorsCopy.remove(op);
