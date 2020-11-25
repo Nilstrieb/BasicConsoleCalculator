@@ -1,9 +1,17 @@
 package nodes;
 
-public class BracketNode extends Node{
+import java.util.ArrayList;
 
-    public BracketNode(int id) {
-        super(id);
+public class BracketNode extends ValueNode{
+
+    private ArrayList<OperatorNode> operators;
+
+    public BracketNode() {
+        operators = new ArrayList<>();
+    }
+
+    public void addOperator(OperatorNode operator){
+        operators.add(operator);
     }
 
     @Override

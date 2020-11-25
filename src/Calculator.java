@@ -1,5 +1,3 @@
-import nodes.NodeTree;
-
 import java.util.Scanner;
 
 public class Calculator {
@@ -13,10 +11,6 @@ public class Calculator {
         String input = scn.nextLine();
         while(!input.equals("exit")){
             Parser parser = new Parser(input);
-            /*NodeTree tree = parser.getNodeTree();
-            double result = tree.getValue();
-            System.out.println(input);
-            System.out.println(result);*/
             input = scn.nextLine();
         }
     }

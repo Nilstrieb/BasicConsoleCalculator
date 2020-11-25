@@ -1,32 +1,46 @@
 package nodes;
 
-public class OperatorNode extends Node{
+public class OperatorNode {
 
-   private Node value1;
-   private Node value2;
+    private ValueNode leftChild;
+    private ValueNode rightChild;
 
-   private final Operator operator;
+    private final Operator type;
 
-   public OperatorNode(int id, Operator operator) {
-      super(id);
-      this.operator = operator;
-   }
+    public OperatorNode(ValueNode leftChild, ValueNode rightChild, Operator type) {
+        this.leftChild = leftChild;
+        this.rightChild = rightChild;
+        this.type = type;
+    }
 
-   public void setValue1(Node value1) {
-      this.value1 = value1;
-   }
+    public void calculate(){
 
-   public void setValue2(Node value2) {
-      this.value2 = value2;
-   }
+        double result = switch (type){
+            case ADD -> leftChild.getValue() + rightChild.getValue();
+            case SUBTRACT -> leftChild.getValue() - rightChild.getValue();
+            case MULTIPLY -> leftChild.getValue() * rightChild.getValue();
+            case DIVIDE -> leftChild.getValue() / rightChild.getValue();
+            };
 
-   @Override
-   public double getValue () {
-      return switch (operator){
-         case ADD -> value1.getValue() + value2.getValue();
-         case SUBTRACT -> value1.getValue() - value2.getValue();
-         case MULTIPLY -> value1.getValue() * value2.getValue();
-         case DIVIDE -> value1.getValue() / value2.getValue();
-      };
-   }
+        ValueNode resultNode = new ValueNode(result, getLeftNode(), getRightNode());
+
+        getLeftNode().setRightChild(resultNode);
+        getRightNode().setLeftChild(resultNode);
+    }
+
+    public OperatorNode getLeftNode(){
+        return leftChild.getLeftParent();
+    }
+
+    public OperatorNode getRightNode(){
+        return rightChild.getRightParent();
+    }
+
+    public void setLeftChild(ValueNode leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    public void setRightChild(ValueNode rightChild) {
+        this.rightChild = rightChild;
+    }
 }
