@@ -6,7 +6,7 @@ public class BracketNode extends ValueNode {
 
     private ArrayList<OperatorNode> operators;
 
-    public BracketNode(String line) {
+    public BracketNode(String line) throws NumberFormatException{
         operators = new ArrayList<>();
 
         ValueNode leftNumber = new ValueNode();
