@@ -40,12 +40,12 @@ Lastly, the operator node and its original children are removed from the node tr
 This is repeated for all operators until all are calculated.  
 The process looks like this:
 
-1 + 2 * 3 - (4 * 5)      Firstly, the 2 * 3 is calculated because * is the leftmost priority operator (the brackets are ignored for now because remember, they are treated like values and only calculated when needed
+* 1 + 2 * 3 - (4 * 5)      Firstly, the 2 * 3 is calculated because * is the leftmost priority operator (the brackets are ignored for now because remember, they are treated like values and only calculated when needed
 
-1 + 6 - (4 * 5)          Next, the 1 + 6 is calculated because the + is the leftmost non-prioriy operator (there are no priority operators left)
+* 1 + 6 - (4 * 5)          Next, the 1 + 6 is calculated because the + is the leftmost non-prioriy operator (there are no priority operators left)
 
-7 - (4 * 5)              Now, 7 - (4 * 5) wants to be calculated. This operation contains a bracket expression, so the operator calls the getValue() method on the bracket expression, which internally calculates its value.
+* 7 - (4 * 5)              Now, 7 - (4 * 5) wants to be calculated. This operation contains a bracket expression, so the operator calls the getValue() method on the bracket expression, which internally calculates its value.
 
-7 - 20                   The bracket has returned its value and the 7- 20 operation can now be calculated
+* 7 - 20                   The bracket has returned its value and the 7- 20 operation can now be calculated
 
--13                      The value of *1 + 2 * 3 - (4 * 5)* is *-13*
+* -13                      The value of *1 + 2 * 3 - (4 * 5)* is *-13*
