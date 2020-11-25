@@ -30,7 +30,7 @@ public class BracketNode extends ValueNode{
                             addOperator(newOperator);
                             leftNumber.addParent(newOperator);
                             rightNumber.addParent(newOperator);
-                            leftNumber = new ValueNode();
+                            leftNumber = rightNumber;
                             rightNumber = new ValueNode();
                         }
                         currentOperator = c;
@@ -86,6 +86,7 @@ public class BracketNode extends ValueNode{
 
             while (hasPriorityNodes && operatorsCopy.size() > 1) {
                 hasPriorityNodes = false;
+                System.out.println(operatorsCopy);
                 for (OperatorNode op : operatorsCopy) {
                     if (op.hasPriority()) {
                         op.calculate();

@@ -11,6 +11,7 @@ public class Calculator {
         String input = scn.nextLine();
         while(!input.equals("exit")){
             Parser parser = new Parser(input);
+            System.out.println(parser.getValue());
             input = scn.nextLine();
         }
     }

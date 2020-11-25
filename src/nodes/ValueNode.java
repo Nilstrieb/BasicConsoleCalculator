@@ -3,6 +3,7 @@ package nodes;
 public class ValueNode {
 
     private double value;
+    private String valueString = "";
     private OperatorNode leftParent;
     private OperatorNode rightParent;
 
@@ -40,8 +41,7 @@ public class ValueNode {
     }
 
     public void append(char c) throws NumberFormatException{
-        String valueString = String.valueOf(value);
         valueString += c;
-        this.value = Double.parseDouble(valueString);
+        value = Double.parseDouble(valueString);
     }
 }

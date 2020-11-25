@@ -5,12 +5,17 @@ import nodes.ValueNode;
 public class Parser {
 
     private String contentString;
+    private BracketNode baseNode;
 
     public Parser(String line) throws NumberFormatException {
 
         this.contentString = line;
 
-        BracketNode baseNode = new BracketNode(line);
+        baseNode = new BracketNode(line);
 
+    }
+
+    public double getValue() {
+        return baseNode.getValue();
     }
 }
