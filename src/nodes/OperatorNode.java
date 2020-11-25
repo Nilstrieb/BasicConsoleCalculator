@@ -1,5 +1,8 @@
 package nodes;
 
+/**
+ * A Node that stores 2 values and calculates the result
+ */
 public class OperatorNode {
 
     private ValueNode leftChild;
@@ -30,6 +33,9 @@ public class OperatorNode {
         };
     }
 
+    /**
+     * Calculate the result of the operation and store it in the expression
+     */
     public void calculate(){
 
         double result = getValue();
@@ -44,6 +50,10 @@ public class OperatorNode {
         }
     }
 
+    /**
+     * Calculate the result of the operation and return it
+     * @return The result
+     */
     public double getValue(){
 
         return switch (type){
