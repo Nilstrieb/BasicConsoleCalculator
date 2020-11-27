@@ -2,7 +2,7 @@ package math;
 
 public class Variable {
 
-    private final double amount;
+    private double amount;
     private final String variable;
     private final boolean isNegative;
     private final boolean isDivided;
@@ -75,6 +75,13 @@ public class Variable {
         }
     }
 
+    //MODIFY THE VARIABLE DIRECTLY
+    public void addToThis(Variable v) {
+        if (variable.equals(v.getVariable())) {
+            this.amount += v.getAmount();
+        }
+    }
+
     private Variable invert() {
         return new Variable(-amount, variable);
     }
@@ -114,5 +121,9 @@ public class Variable {
 
     public String getVariable() {
         return variable;
+    }
+
+    public boolean isZero() {
+        return (amount == 0);
     }
 }

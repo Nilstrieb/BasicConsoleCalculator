@@ -35,6 +35,9 @@ public class Main {
         System.out.println("---");
         System.out.println(v.divide(v3));
 
+        System.out.println("---");
+        System.out.println(Term.parseTerm("5x + 6y - 5").add(Term.parseTerm("2x + 2").add(Term.parseTerm("-7x + 3 - 5y"))));
+
         System.exit(0);
 
         Calculator c = new Calculator();
