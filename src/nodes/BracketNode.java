@@ -100,15 +100,17 @@ public class BracketNode extends ValueNode {
             //copy the ArrayList because you might want to do this again later and the calculation process is destructive
             ArrayList<OperatorNode> operatorsCopy = new ArrayList<>(operators);
 
-            //While there are any operators with priority (* and /), calculate them, from left to right
-
+            //go through each priority level individually
             for (int currentPriority = OperatorNode.MAX_PRIORITY; currentPriority >= 0; currentPriority--) {
-                boolean hasPriorityNodes = true;
 
+                boolean hasPriorityNodes = true;
+                //while there were any priority nodes left in the last iteration, continue trying to find new ones
                 while (hasPriorityNodes && operatorsCopy.size() > 1) {
                     hasPriorityNodes = false;
+                    //go through each operator
                     for (int i = 0; i < operatorsCopy.size() && operatorsCopy.size() > 1; i++) {
                         OperatorNode op = operatorsCopy.get(i);
+                        //if the operator is on the current priority layer, calculate it and remove it
                         if (op.getPriority() == currentPriority) {
                             op.calculate();
                             operatorsCopy.remove(op);
