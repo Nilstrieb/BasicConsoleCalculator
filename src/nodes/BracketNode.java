@@ -26,6 +26,7 @@ public class BracketNode extends ValueNode {
 
             ValueNode leftNumber = new ValueNode();
             ValueNode rightNumber = new ValueNode();
+            //the current operator, if it's set to 0, the left value is being parsed, if it has a value, the right value is being parsed
             char currentOperator = '0';
             int bracketLevel = 0;
             String bracketContent = "";
