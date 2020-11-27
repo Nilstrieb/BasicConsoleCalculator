@@ -1,5 +1,5 @@
 package nodes;
 
 public enum Operator {
-    ADD, SUBTRACT, MULTIPLY, DIVIDE
+    ADD, SUBTRACT, MULTIPLY, DIVIDE, POWER;
 }

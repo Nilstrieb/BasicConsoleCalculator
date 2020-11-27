@@ -40,6 +40,7 @@ public class BracketNode extends ValueNode {
                         case '-':
                         case '*':
                         case '/':
+                        case '^':
                             if (currentOperator != '0') {
                                 OperatorNode newOperator = new OperatorNode(leftNumber, rightNumber, currentOperator);
                                 operators.add(newOperator);
@@ -100,28 +101,22 @@ public class BracketNode extends ValueNode {
             ArrayList<OperatorNode> operatorsCopy = new ArrayList<>(operators);
 
             //While there are any operators with priority (* and /), calculate them, from left to right
-            boolean hasPriorityNodes = true;
-            while (hasPriorityNodes && operatorsCopy.size() > 1) {
-                hasPriorityNodes = false;
-                for (int i = 0; i < operatorsCopy.size() && operatorsCopy.size() > 1; i++) {
-                    OperatorNode op = operatorsCopy.get(i);
-                    if (op.hasPriority()) {
-                        op.calculate();
-                        operatorsCopy.remove(op);
-                        i--;
-                        hasPriorityNodes = true;
+
+            for (int currentPriority = OperatorNode.MAX_PRIORITY; currentPriority >= 0; currentPriority--) {
+                boolean hasPriorityNodes = true;
+
+                while (hasPriorityNodes && operatorsCopy.size() > 1) {
+                    hasPriorityNodes = false;
+                    for (int i = 0; i < operatorsCopy.size() && operatorsCopy.size() > 1; i++) {
+                        OperatorNode op = operatorsCopy.get(i);
+                        if (op.getPriority() == currentPriority) {
+                            op.calculate();
+                            operatorsCopy.remove(op);
+                            i--;
+                            hasPriorityNodes = true;
+                        }
                     }
-                }
 
-            }
-
-            //Calculate all the normal operators (+ and -) from left to right
-            while (operatorsCopy.size() > 1) {
-                for (int i = 0; i < operatorsCopy.size() - 1; i++) {
-                    OperatorNode op = operatorsCopy.get(i);
-                    op.calculate();
-                    operatorsCopy.remove(op);
-                    i--;
                 }
             }
 

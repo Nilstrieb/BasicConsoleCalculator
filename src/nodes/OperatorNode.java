@@ -10,6 +10,8 @@ public class OperatorNode {
 
     private Operator type;
 
+    public static final int MAX_PRIORITY = 2;
+
     public OperatorNode(ValueNode leftChild, ValueNode rightChild) {
         this.leftChild = leftChild;
         this.rightChild = rightChild;
@@ -24,11 +26,12 @@ public class OperatorNode {
 
     public OperatorNode(ValueNode leftChild, ValueNode rightChild, char operator) {
         this(leftChild, rightChild);
-        this.type = switch (operator){
+        this.type = switch (operator) {
             case '+' -> Operator.ADD;
             case '-' -> Operator.SUBTRACT;
             case '*' -> Operator.MULTIPLY;
             case '/' -> Operator.DIVIDE;
+            case '^' -> Operator.POWER;
             default -> throw new IllegalStateException("Unexpected value: " + operator);
         };
     }
@@ -36,39 +39,41 @@ public class OperatorNode {
     /**
      * Calculate the result of the operation and store it in the expression
      */
-    public void calculate(){
+    public void calculate() {
 
         double result = getValue();
 
         ValueNode resultNode = new ValueNode(result, getLeftNode(), getRightNode());
 
-        if(getLeftNode() != null) {
+        if (getLeftNode() != null) {
             getLeftNode().setRightChild(resultNode);
         }
-        if(getRightNode() != null) {
+        if (getRightNode() != null) {
             getRightNode().setLeftChild(resultNode);
         }
     }
 
     /**
      * Calculate the result of the operation and return it
+     *
      * @return The result
      */
-    public double getValue(){
+    public double getValue() {
 
-        return switch (type){
+        return switch (type) {
             case ADD -> leftChild.getValue() + rightChild.getValue();
             case SUBTRACT -> leftChild.getValue() - rightChild.getValue();
-            case MULTIPLY ->    leftChild.getValue() * rightChild.getValue();
+            case MULTIPLY -> leftChild.getValue() * rightChild.getValue();
             case DIVIDE -> leftChild.getValue() / rightChild.getValue();
+            case POWER -> Math.pow(leftChild.getValue(), rightChild.getValue());
         };
     }
 
-    public OperatorNode getLeftNode(){
+    public OperatorNode getLeftNode() {
         return leftChild.getLeftParent();
     }
 
-    public OperatorNode getRightNode(){
+    public OperatorNode getRightNode() {
         return rightChild.getRightParent();
     }
 
@@ -80,7 +85,13 @@ public class OperatorNode {
         this.rightChild = rightChild;
     }
 
-    public boolean hasPriority(){
-        return (type == Operator.MULTIPLY || type == Operator.DIVIDE);
+    public int getPriority() {
+        if (type == Operator.MULTIPLY || type == Operator.DIVIDE) {
+            return 1;
+        } else if (type == Operator.POWER) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 }
