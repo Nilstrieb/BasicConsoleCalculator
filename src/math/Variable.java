@@ -5,14 +5,22 @@ public class Variable {
     private final double amount;
     private final String variable;
     private final boolean isNegative;
+    private final boolean isDivided;
 
     public Variable(String term, boolean isNegative) {
         this.isNegative = isNegative;
-        if (term.matches("[\\d\\.]+[a-zA-Z]*")) {
-            String[] split = term.replaceAll("(\\d+)([a-zA-Z]*)", "$1;$2").split(";");
-            amount = isNegative ? -Double.parseDouble(split[0]) : Double.parseDouble(split[0]);
+        this.isDivided = false;
+        if (term.matches("([\\d\\.]+[a-zA-Z]*)|([\\d\\.]*[a-zA-Z]+)")) {
+            String[] split = term.replaceAll("(\\d*)([a-zA-Z]*)", "$1;$2").split(";");
+            if (!split[0].matches("\\d+")) {
+                amount = 1;
+            } else {
+                amount = isNegative ? -Double.parseDouble(split[0]) : Double.parseDouble(split[0]);
+            }
             if (split.length > 1) {
                 variable = split[1];
+            } else if (split[0].matches("[a-zA-Z]+")) {
+                variable = split[0];
             } else {
                 variable = "";
             }
@@ -24,8 +32,16 @@ public class Variable {
 
     public Variable(double amount, String variable) {
         isNegative = amount < 0;
+        isDivided = false;
         this.amount = amount;
         this.variable = variable;
+    }
+
+    public Variable(double amount, String variable, boolean isDivided) {
+        isNegative = amount < 0;
+        this.amount = amount;
+        this.variable = variable;
+        this.isDivided = isDivided;
     }
 
 
@@ -54,7 +70,7 @@ public class Variable {
             return new Term(new Variable(amount / v.getAmount(), ""));
         } else {
             Variable v1 = new Variable(amount / v.getAmount(), variable);
-            Variable v2 = new Variable(1, v.getVariable());
+            Variable v2 = new Variable(1, v.getVariable(), true);
             return new Term(v1, v2);
         }
     }
@@ -66,17 +82,30 @@ public class Variable {
 
     @Override
     public String toString() {
-        if (amount == 0) {
-            return String.valueOf(0);
-        } else if (isNegative) {
-            return -amount + variable;
+
+        String amountString;
+
+        if ((amount % 1) == 0) {
+            amountString = String.valueOf(isNegative ? (int) -amount : (int) amount);
         } else {
-            return amount + variable;
+            amountString = String.valueOf(isNegative ? -amount : amount);
+        }
+
+        if (amount == 0) {
+            return true ? "0" : String.valueOf(Double.parseDouble(String.valueOf(Integer.parseInt("0")))); //ignore warning, it works     //(actually the whole if isn't needed but it's funny so I'll keep it in)
+        } else if (amount == 1 || amount == -1 && !variable.equals("")) {
+            return isNegative ? "-" + variable : variable;
+        } else {
+            return amountString + variable;
         }
     }
 
     public boolean isNegative() {
         return isNegative;
+    }
+
+    public boolean isDivided() {
+        return isDivided;
     }
 
     public double getAmount() {

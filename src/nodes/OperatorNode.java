@@ -24,7 +24,7 @@ public class OperatorNode {
 
     public OperatorNode(ValueNode leftChild, ValueNode rightChild, char operator) {
         this(leftChild, rightChild);
-        this.type = switch (operator){
+        this.type = switch (operator) {
             case '+' -> Operator.ADD;
             case '-' -> Operator.SUBTRACT;
             case '*' -> Operator.MULTIPLY;
@@ -36,39 +36,40 @@ public class OperatorNode {
     /**
      * Calculate the result of the operation and store it in the expression
      */
-    public void calculate(){
+    public void calculate() {
 
         double result = getValue();
 
         ValueNode resultNode = new ValueNode(result, getLeftNode(), getRightNode());
 
-        if(getLeftNode() != null) {
+        if (getLeftNode() != null) {
             getLeftNode().setRightChild(resultNode);
         }
-        if(getRightNode() != null) {
+        if (getRightNode() != null) {
             getRightNode().setLeftChild(resultNode);
         }
     }
 
     /**
      * Calculate the result of the operation and return it
+     *
      * @return The result
      */
-    public double getValue(){
+    public double getValue() {
 
-        return switch (type){
+        return switch (type) {
             case ADD -> leftChild.getValue() + rightChild.getValue();
             case SUBTRACT -> leftChild.getValue() - rightChild.getValue();
-            case MULTIPLY ->    leftChild.getValue() * rightChild.getValue();
+            case MULTIPLY -> leftChild.getValue() * rightChild.getValue();
             case DIVIDE -> leftChild.getValue() / rightChild.getValue();
         };
     }
 
-    public OperatorNode getLeftNode(){
+    public OperatorNode getLeftNode() {
         return leftChild.getLeftParent();
     }
 
-    public OperatorNode getRightNode(){
+    public OperatorNode getRightNode() {
         return rightChild.getRightParent();
     }
 
@@ -80,7 +81,7 @@ public class OperatorNode {
         this.rightChild = rightChild;
     }
 
-    public boolean hasPriority(){
+    public boolean hasPriority() {
         return (type == Operator.MULTIPLY || type == Operator.DIVIDE);
     }
 }

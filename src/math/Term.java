@@ -29,6 +29,8 @@ public class Term {
             if(!(i == 0 && !v.isNegative())) {
                 if (v.isNegative()) {
                     returnString.append(" - ");
+                } else if (v.isDivided()){
+                    returnString.append(" / ");
                 } else {
                     returnString.append(" + ");
                 }
